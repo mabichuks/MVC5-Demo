@@ -1,0 +1,43 @@
+﻿@model CybSoftTest.Web.Models.ProjectListViewModel
+
+@{
+    ViewBag.Title = "GetProjectByStaff";
+    var sn = 1;
+
+}
+@foreach (var item in Model.Projects)
+{
+    <h2>@item.Staff.FirstName @item.Staff.LastName</h2>
+    break;
+}
+
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <td>S/N</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+
+            </tr>
+
+            @foreach (var project in Model.Projects)
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@project.Name</td>
+                    <td>@Html.Raw(project.Description)</td>
+                    <td>@project.StartDate.Day @project.StartDate.Month @project.StartDate.Year</td>
+                    <td>@project.EndDate.Day @project.EndDate.Month @project.EndDate.Year</td>
+
+                </tr>
+                sn++;
+            }
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,88 @@
+﻿@model CybSoftTest.Web.Models.ProjectListViewModel
+
+@{
+    ViewBag.Title = "ProjectListView";
+    var sn = 1;
+
+}
+
+<div class="row">
+
+    @using (Html.BeginForm("GetProjectByStaff", "Project", FormMethod.Post, new { id = "selectForm"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-8">
+            <select name="StaffId" class="form-control staff">
+                <option value="">----Select Staff---</option>
+                @foreach (var item in ViewBag.Staff)
+                {
+                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+
+                }
+            </select>
+        </div>
+
+
+    }
+</div>
+
+<h2>Projects</h2>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="@Url.Action("AddProject", "Project")" class="btn btn-success"><i class="fa fa-plus"></i> Assign Project</a>
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <td>S/N</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Assigned To</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            @foreach (var project in Model.Projects)
+            {
+            <tr>
+                <td>@sn</td>
+                <td>@project.Name</td>
+                <td>@Html.Raw(project.Description)</td>
+                <td>@project.Staff.FirstName @project.Staff.LastName</td>
+                <td>@project.StartDate.Day @project.StartDate.Month @project.StartDate.Year</td>
+                <td>@project.EndDate.Day @project.EndDate.Month @project.EndDate.Year</td>
+                <td><a href="@Url.Action("EditProject", "Project")/@project.Id"><i class="fa fa-edit"></i> Edit</a></td>
+                <td>
+                    @using (Html.BeginForm("DeleteProject", "Project", FormMethod.Post, new { @class = "deleteProject" }))
+                    {
+                        @Html.Hidden("Id", project.Id)
+                        <button class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                    }
+                </td>
+
+            </tr>
+                sn++;
+            }
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('.staff').change(function () {
+                $('#selectForm').submit();
+            });
+
+            $('#selectForm').on('submit', function (e) {
+                e.preventDefault();
+                window.location = $(this).attr("action") + "/" + $('.staff').val();
+            });
+        });
+    </script>
+    }

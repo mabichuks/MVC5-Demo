@@ -1,0 +1,35 @@
+﻿@model CybSoftTest.Web.Models.SalaryViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+
+    @using (Html.BeginForm("GetTax", "Paye", FormMethod.Get, new { id = "selectForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-8">
+            <input type="number" class="form-control " name="Salary" id="number" />
+            <input type="submit" class="btn btn-danger" />
+        </div>
+
+
+    }
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+
+            $('#selectForm').on('submit', function (e) {
+                e.preventDefault();
+                window.location = $(this).attr("action") + "/" + $('#number').val();
+            });
+        });
+    </script>
+}

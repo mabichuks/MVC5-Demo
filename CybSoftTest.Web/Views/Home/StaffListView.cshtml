@@ -1,0 +1,60 @@
+﻿@model CybSoftTest.Web.Models.StaffListView
+
+@{
+    ViewBag.Title = "StaffListView";
+    var sn = 1;
+
+}
+
+<h2>Staff</h2>
+<div class="row">
+    <div class="col-md-offset-10">
+        @Html.ActionLink("Print", "PrintPdf", null, new { @class = "btn btn-primary" })
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="@Url.Action("AddStaff", "Home")" class="btn btn-success"><i class="fa fa-plus"></i> Add Staff</a>
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <td>S/N</td>
+                <td>Name</td>
+                <td>DOB</td>
+                <td>Address</td>
+                <td>Department</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            @foreach (var staff in Model.Staff)
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@staff.FirstName @staff.LastName</td>
+                    <td>@staff.DateOfBirth.Month @staff.DateOfBirth.Year</td>
+                    <td>@staff.Address</td>
+                    <td>@staff.Department.Name</td>
+                    <td><a href="@Url.Action("EditStaff", "Home")/@staff.Id"><i class="fa fa-edit"></i> Edit</a></td>
+                    <td>
+                        @using (Html.BeginForm("DeleteStaff", "Home", FormMethod.Post, new { @class = "deleteStaff" }))
+                        {
+                            @Html.Hidden("Id", staff.Id)
+                            <button class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                        }
+                    </td>
+                    <td><a href="@Url.Action("GetSingleStaff", "Home")/@staff.Id">Details</a></td>
+
+                </tr>
+                sn++;
+            }
+        </table>
+    </div>
+</div>
+
+

@@ -1,0 +1,31 @@
+﻿@model CybSoftTest.Web.Models.TaxViewModel
+
+@{
+    ViewBag.Title = "GetTax";
+}
+
+<div class="panel-body">
+    <table class="table table-striped">
+        <tr>
+            <th>Balance</th>
+            <th>Tax Deducted</th>
+        </tr>
+
+        @foreach (var data in Model.Tax)
+        {
+            <tr>
+                <td>@data.Key</td>
+                <td>@data.Value</td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        <p>Total deduction = @ViewBag.TotalTax</p>
+        <p>Final Balance = @ViewBag.FinalBalance</p>
+
+    </div>
+
+</div>
+
